@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -9,6 +9,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Auto-close mobile menu on route change for better UX
+  useEffect(() => {
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
 
   const handleLogout = () => {
     logout();
@@ -42,6 +48,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-1">
             <Link 
               to="/search" 
+              aria-label="Search Houses"
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                 isActiveRoute('/search')
                   ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
@@ -55,6 +62,7 @@ const Navbar = () => {
               <>
                 <Link 
                   to="/add-house" 
+                  aria-label="Add House"
                   className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                     isActiveRoute('/add-house')
                       ? 'bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300'
@@ -65,6 +73,7 @@ const Navbar = () => {
                 </Link>
                 <Link 
                   to="/profile" 
+                  aria-label="Profile"
                   className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                     isActiveRoute('/profile')
                       ? 'bg-secondary-100 dark:bg-secondary-900/30 text-secondary-700 dark:text-secondary-300'

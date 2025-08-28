@@ -38,7 +38,7 @@ const ProfilePage = () => {
       setUserHouses(housesResponse.data.houses || []);
     } catch (err) {
       const status = err.response?.status;
-      if (status === 401) {
+      if (status === 401 || status === 403) {
         navigate('/login');
         return;
       }
